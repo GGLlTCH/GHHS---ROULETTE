@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>GHHS-rollet</title>
+		<link rel="stylesheet" href="style.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		/>
+	</head>
+	<body>
+		<!-- Главный контейнер -->
+		<div class="container">
+			<!-- Шапка -->
+			<header class="header">
+				<div class="logo-container">
+					<i class="fas fa-chart-line logo-icon"></i>
+					<h1 class="logo-text">
+						GHHS - <span class="highlight">ROULETTE</span>
+					</h1>
+				</div>
+				<div class="header-stats">
+					<div class="stat-item">
+						<div class="stat-value" id="totalSpins">0</div>
+						<div class="stat-label">Выпадений</div>
+					</div>
+					<div class="stat-item highlight-bg">
+						<div class="stat-value" id="totalRepeats">0</div>
+						<div class="stat-label">Повторений</div>
+					</div>
+				</div>
+			</header>
+
+			<!-- Основной контент -->
+			<main class="main-content">
+				<!-- Левая колонка: управление -->
+				<div class="left-column">
+					<!-- История -->
+					<div class="card">
+						<div class="card-title">
+							<i class="fas fa-history"></i>
+							<span>Последние выпадения</span>
+						</div>
+						<div class="history-container" id="historyContainer">
+							<!-- История будет здесь -->
+						</div>
+					</div>
+
+					<!-- Управление -->
+					<div class="card">
+						<div class="card-title">
+							<i class="fas fa-cogs"></i>
+							<span>Управление</span>
+						</div>
+						<div class="controls-grid">
+							<button class="control-btn" id="undoBtn">
+								<i class="fas fa-undo"></i>
+								<span>Отменить</span>
+							</button>
+							<button class="control-btn danger" id="clearBtn">
+								<i class="fas fa-trash"></i>
+								<span>Очистить</span>
+							</button>
+							<button class="control-btn" id="exportBtn">
+								<i class="fas fa-download"></i>
+								<span>Экспорт</span>
+							</button>
+							<button class="control-btn" id="importBtn">
+								<i class="fas fa-upload"></i>
+								<span>Импорт</span>
+							</button>
+						</div>
+					</div>
+
+					<!-- Частые числа -->
+					<div class="card">
+						<div class="card-title">
+							<i class="fas fa-fire"></i>
+							<span>Частые числа</span>
+						</div>
+						<div class="hot-numbers" id="hotNumbers">
+							<!-- Частые числа будут здесь -->
+						</div>
+					</div>
+				</div>
+
+				<!-- Центральная колонка: таблицы -->
+				<div class="center-column">
+					<!-- Основная таблица -->
+					<div class="card table-card">
+						<div class="card-title">
+							<i class="fas fa-table"></i>
+							<span>История выпадений</span>
+						</div>
+						<div class="table-wrapper">
+							<!-- Нули -->
+							<div class="zeros-row">
+								<div class="zero-cell" data-number="0">0</div>
+								<div class="zero-cell" data-number="00">00</div>
+							</div>
+							<!-- Сетка 3x12 -->
+							<div class="numbers-grid" id="mainTable">
+								<!-- Заполнится через JS -->
+							</div>
+							<!-- Секторы -->
+							<div class="sectors-row">
+								<div class="sector" data-sector="1">1-сектор</div>
+								<div class="sector" data-sector="2">2-сектор</div>
+								<div class="sector" data-sector="3">3-сектор</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Прогнозная таблица -->
+					<div class="card table-card prediction">
+						<div class="card-title">
+							<i class="fas fa-chart-line"></i>
+							<span>Частота выпадений</span>
+						</div>
+						<div class="table-wrapper">
+							<!-- Нули -->
+							<div class="zeros-row">
+								<div class="zero-cell" data-number="0">0</div>
+								<div class="zero-cell" data-number="00">00</div>
+							</div>
+							<!-- Сетка 3x12 -->
+							<div class="numbers-grid" id="predictionTable">
+								<!-- Заполнится через JS -->
+							</div>
+							<!-- Вероятности секторов -->
+							<div class="probability-row">
+								<div class="prob-item" id="sector1Prob">1-я 12: 0%</div>
+								<div class="prob-item" id="sector2Prob">2-я 12: 0%</div>
+								<div class="prob-item" id="sector3Prob">3-я 12: 0%</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Правая колонка: статистика -->
+				<div class="right-column">
+					<!-- Цветовая статистика -->
+					<div class="card">
+						<div class="card-title">
+							<i class="fas fa-palette"></i>
+							<span>Статистика</span>
+						</div>
+						<div class="stats-grid">
+							<div class="stat-box red">
+								<div class="stat-number" id="redCount">0</div>
+								<div class="stat-label">Красные</div>
+								<div class="stat-percent" id="redPercent">0%</div>
+							</div>
+							<div class="stat-box black">
+								<div class="stat-number" id="blackCount">0</div>
+								<div class="stat-label">Черные</div>
+								<div class="stat-percent" id="blackPercent">0%</div>
+							</div>
+							<div class="stat-box blue">
+								<div class="stat-number" id="evenCount">0</div>
+								<div class="stat-label">Четные</div>
+								<div class="stat-percent" id="evenPercent">0%</div>
+							</div>
+							<div class="stat-box green">
+								<div class="stat-number" id="oddCount">0</div>
+								<div class="stat-label">Нечетные</div>
+								<div class="stat-percent" id="oddPercent">0%</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Вероятности -->
+					<div class="card">
+						<div class="card-title">
+							<i class="fas fa-percentage"></i>
+							<span>Вероятности</span>
+						</div>
+						<div class="probability-list">
+							<div class="prob-line">
+								<span class="prob-label">1-18</span>
+								<span class="prob-value" id="lowProb">0%</span>
+								<div class="prob-bar">
+									<div class="prob-fill" id="lowProbBar"></div>
+								</div>
+							</div>
+							<div class="prob-line">
+								<span class="prob-label">19-36</span>
+								<span class="prob-value" id="highProb">0%</span>
+								<div class="prob-bar">
+									<div class="prob-fill" id="highProbBar"></div>
+								</div>
+							</div>
+							<div class="prob-line">
+								<span class="prob-label">Красные</span>
+								<span class="prob-value" id="redProb">0%</span>
+								<div class="prob-bar">
+									<div class="prob-fill red-fill" id="redProbBar"></div>
+								</div>
+							</div>
+							<div class="prob-line">
+								<span class="prob-label">Черные</span>
+								<span class="prob-value" id="blackProb">0%</span>
+								<div class="prob-bar">
+									<div class="prob-fill black-fill" id="blackProbBar"></div>
+								</div>
+							</div>
+							<div class="prob-line">
+								<span class="prob-label">Четные</span>
+								<span class="prob-value" id="evenProb">0%</span>
+								<div class="prob-bar">
+									<div class="prob-fill blue-fill" id="evenProbBar"></div>
+								</div>
+							</div>
+							<div class="prob-line">
+								<span class="prob-label">Нечетные</span>
+								<span class="prob-value" id="oddProb">0%</span>
+								<div class="prob-bar">
+									<div class="prob-fill green-fill" id="oddProbBar"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Паттерны -->
+					<div class="card">
+						<div class="card-title">
+							<i class="fas fa-project-diagram"></i>
+							<span>Паттерны</span>
+						</div>
+						<div class="patterns" id="patternsContainer">
+							<!-- Паттерны будут здесь -->
+						</div>
+					</div>
+				</div>
+			</main>
+
+			<!-- Футер -->
+			<footer class="footer">
+				<div class="footer-info">
+					<i class="fas fa-info-circle"></i>
+					<span>Для добавления числа кликните по нему на столе</span>
+				</div>
+				<div class="footer-stats">
+					<span>Точность прогноза: <strong id="accuracyValue">0%</strong></span>
+					<div class="accuracy-bar">
+						<div class="accuracy-fill" id="accuracyBar"></div>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Скрипты -->
+		<script src="script.js"></script>
+	</body>
+</html>
